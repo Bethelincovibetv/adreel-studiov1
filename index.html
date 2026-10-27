@@ -59,6 +59,23 @@ GGD Ad Network — Helping Businesses Grow.</textarea>
 <div class="row"><button type="button" id="makeRealHuman">✨ Create realistic video prompt</button><button type="button" class="sec" id="copyRealHuman">Copy prompt</button></div>
 <p class="mut" style="margin-bottom:0">Recommended: vertical 9:16, natural human movement, realistic skin texture, clear dialogue, consistent characters, authentic Nigerian setting when appropriate.</p>
 </section>
+<section class="card" id="whiteboardStoryStudio" style="margin:14px 0;padding:14px;border:1px solid var(--bd);border-radius:14px;background:var(--card)">
+<h3 style="margin:0 0 6px">✍️ Whiteboard Story & Illustration Studio</h3>
+<p class="mut" style="margin:0 0 10px">Choose a story format. The app builds a sequence of different hand-drawn-style scenes, characters, icons, diagrams and story beats using the existing whiteboard animation engine.</p>
+<label for="wbStoryTemplate">Whiteboard story template</label>
+<select id="wbStoryTemplate">
+<option value="problem">1. Problem → Solution → Result</option>
+<option value="howto">2. Step-by-step How-To Guide</option>
+<option value="product">3. Product / Service Explainer</option>
+<option value="customer">4. Customer Story / Testimonial</option>
+<option value="journey">5. Before-and-After Transformation</option>
+<option value="lesson">6. Educational Lesson</option>
+<option value="business">7. Small Business Promotion</option>
+<option value="community">8. Team / Community Story</option>
+</select>
+<div class="row"><button type="button" id="buildWhiteboardStory">✍️ Build whiteboard story</button></div>
+<p class="mut" style="margin-bottom:0">Tip: paste your own script first. Choose “Style: Whiteboard sketch” to get the hand-drawn reveal effect. Each scene type uses a different illustration layout.</p>
+</section>
 <canvas id="cv" width="720" height="1280"></canvas>
 <input type="range" id="sk" min="0" max="1000" value="0"><div id="pg"><i></i></div>
 <div class="row"><button id="pl">▶ Play</button><button id="rc">⏺ Record &amp; download</button></div>
@@ -220,6 +237,41 @@ function applyTemplate(){
  draw();
 }
 $('tpl').onchange=()=>{if($('tpl').value==='auto'){if(lastSB)setSB(lastSB);return}applyTemplate()};
+
+
+function buildWhiteboardStory(){
+ const tx=$('sc').value.trim();
+ if(!tx){$('st').textContent='Paste your script first, then build a whiteboard story.';return}
+ const o=parse(tx), brand=o.brand||'Your Business', headline=o.headline||'A Better Way to Get Things Done', problem=o.problem||'Many people face this challenge every day.', solution=o.intro||o.extra||'Here is a simple, practical solution.', benefits=(o.features||[]).filter(Boolean).slice(0,4);
+ const mode=$('wbStoryTemplate').value;
+ let scenes=[];
+ const hook={k:'hook',t:headline,s:o.question||'Let us explain it simply.'};
+ const story={k:'story',t:problem,s:solution};
+ const presenter={k:'presenter',t:'HERE IS THE IDEA',s:solution,items:benefits.slice(0,2).length?benefits.slice(0,2):['A simple solution','Clear benefits']};
+ const demo={k:'demo',t:'SEE HOW IT WORKS',s:solution,items:benefits.slice(0,3)};
+ const steps={k:'steps',t:'FOLLOW THESE SIMPLE STEPS',items:benefits.length>=3?benefits.slice(0,4):['Identify what you need','Choose the right solution','Take the next step']};
+ const testimonial={k:'testimonial',t:'A BETTER EXPERIENCE',s:solution};
+ const compare={k:'compare',t:'FROM PROBLEM TO PROGRESS',s:problem+' → '+solution};
+ const stats={k:'stats',t:'THE BENEFITS AT A GLANCE',items:benefits.length?benefits.slice(0,3):['Save time','Make things easier','Move forward with confidence']};
+ const team={k:'team',t:'WORKING TOGETHER',s:solution};
+ const cta={k:'cta',t:o.cta||('Contact '+brand+' today')};
+ if(mode==='problem') scenes=[hook,story,presenter,demo,stats,cta];
+ else if(mode==='howto') scenes=[hook,story,steps,demo,stats,cta];
+ else if(mode==='product') scenes=[hook,story,presenter,demo,{k:'list',t:'WHY CHOOSE THIS SOLUTION',items:benefits.length?benefits:['Easy to understand','Designed around your needs','Simple to get started']},cta];
+ else if(mode==='customer') scenes=[hook,story,testimonial,demo,stats,cta];
+ else if(mode==='journey') scenes=[hook,compare,story,demo,stats,cta];
+ else if(mode==='lesson') scenes=[hook,story,steps,presenter,{k:'list',t:'REMEMBER THESE KEY POINTS',items:benefits.length?benefits:['Understand the idea','Apply it step by step','Keep practising']},cta];
+ else if(mode==='community') scenes=[hook,team,{k:'conversation',t:'A QUESTION WE OFTEN HEAR',s:solution,items:benefits.slice(0,2)},steps,cta];
+ else scenes=[hook,story,presenter,steps,{k:'list',t:'HOW THIS HELPS YOU',items:benefits.length?benefits:['Explain your offer clearly','Show the value','Invite people to take action']},cta];
+ const palettes={problem:{accent:'#f4c542',top:'#fffdf5',bottom:'#f5f0df'},howto:{accent:'#3c78d8',top:'#ffffff',bottom:'#eef4ff'},product:{accent:'#16a085',top:'#fffef9',bottom:'#eaf7f1'},customer:{accent:'#e67e22',top:'#fffdf9',bottom:'#fff0df'},journey:{accent:'#8e63ce',top:'#ffffff',bottom:'#f4efff'},lesson:{accent:'#2374ab',top:'#fffefb',bottom:'#eaf5fc'},business:{accent:'#1b9a70',top:'#fffefb',bottom:'#edf8f1'},community:{accent:'#d35d78',top:'#fffdfc',bottom:'#fff0f3'}};
+ const palette=palettes[mode]||palettes.problem;
+ const sb={type:mode==='product'?'tech':mode==='lesson'?'edu':'office',style:'board',brand,tagline:o.tagline||'',palette,scenes};
+ $('sty').value='board';
+ $('tpl').value='whiteboard';
+ setSB(sb);
+ $('st').textContent='Whiteboard story built with '+scenes.length+' scenes. Press Play to preview, edit the storyboard if needed, then record & download.';
+}
+$('buildWhiteboardStory').onclick=buildWhiteboardStory;
 
 $('sty').onchange=()=>lastSB&&setSB(lastSB);
 function createRealHumanPrompt(){
