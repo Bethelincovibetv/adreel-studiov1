@@ -1,0 +1,8 @@
+{
+  "name": "AdReel Studio",
+  "description": "Turn ad scripts into animated video storyboards with real-time preview, whiteboard sketches, cinematic human scenes, sound effects, and video recording.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
