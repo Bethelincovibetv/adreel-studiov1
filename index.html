@@ -43,6 +43,22 @@ Stop relying only on people who already know your business. Let’s help more po
 GGD Ad Network — Helping Businesses Grow.</textarea>
 <div class="row"><button id="bb">✨ Smart build</button><button id="cl" class="sec">Clear</button></div>
 <label for="tpl">Graphic template</label><select id="tpl"><option value="auto">Auto — match the ad script</option><option value="bold">Bold Business Promo</option><option value="luxury">Premium Luxury</option><option value="sale">Big Sale / Discount</option><option value="neon">Neon Tech</option><option value="food">Food & Restaurant</option><option value="beauty">Beauty & Fashion</option><option value="gospel">Gospel & Church Event</option><option value="corporate">Corporate Clean</option><option value="property">Real Estate</option><option value="whiteboard">Whiteboard Explainer</option><option value="human">Human Presenter Explainer</option></select><p class="mut">Choose a visual direction, then build your ad. You can still change the animation style below.</p><input type="text" id="ky" placeholder="Gemini API key (optional, enables AI storyboard when self-hosted)" autocomplete="off"><select id="sty"><option value="auto">Style: Auto (AI / built-in picks)</option><option value="flat">Style: Flat cartoon</option><option value="board">Style: Whiteboard sketch</option><option value="human">Style: Human explainer</option></select><div id="st" class="mut"></div>
+<section class="card" id="realHumanStudio" style="margin:14px 0;padding:14px;border:1px solid var(--bd);border-radius:14px;background:var(--card)">
+<h3 style="margin:0 0 6px">🎬 Google Real-Human Explainer Studio</h3>
+<p class="mut" style="margin:0 0 10px">Create a realistic-video prompt for Google AI Studio. This prepares the concept and scene directions; realistic video generation happens in your connected video-generation tool, not in this canvas preview.</p>
+<label for="realHumanMode">Explainer concept</label>
+<select id="realHumanMode">
+<option value="presenter">One presenter explains directly to camera</option>
+<option value="conversation">Customer and expert conversation</option>
+<option value="demo">Real person demonstrates a product or service</option>
+<option value="story">Problem → solution → result story</option>
+<option value="team">Professional team explains a service</option>
+</select>
+<label for="realHumanPrompt">Google AI video prompt</label>
+<textarea id="realHumanPrompt" rows="9" placeholder="Tap Create realistic video prompt to prepare your prompt…"></textarea>
+<div class="row"><button type="button" id="makeRealHuman">✨ Create realistic video prompt</button><button type="button" class="sec" id="copyRealHuman">Copy prompt</button></div>
+<p class="mut" style="margin-bottom:0">Recommended: vertical 9:16, natural human movement, realistic skin texture, clear dialogue, consistent characters, authentic Nigerian setting when appropriate.</p>
+</section>
 <canvas id="cv" width="720" height="1280"></canvas>
 <input type="range" id="sk" min="0" max="1000" value="0"><div id="pg"><i></i></div>
 <div class="row"><button id="pl">▶ Play</button><button id="rc">⏺ Record &amp; download</button></div>
@@ -205,7 +221,29 @@ function applyTemplate(){
 }
 $('tpl').onchange=()=>{if($('tpl').value==='auto'){if(lastSB)setSB(lastSB);return}applyTemplate()};
 
-$('sty').onchange=()=>lastSB&&setSB(lastSB);$('sbj').oninput=e=>{try{setSB(JSON.parse(e.target.value),1);$('st').textContent=''}catch(x){$('st').textContent='Storyboard JSON has an error. Fix it to update the preview.'}};
+$('sty').onchange=()=>lastSB&&setSB(lastSB);
+function createRealHumanPrompt(){
+ const script=$('sc').value.trim();
+ if(!script){$('st').textContent='Paste your ad script first, then create the realistic video prompt.';return}
+ const mode=$('realHumanMode').value;
+ const concepts={
+ presenter:'A confident, friendly adult presenter speaks directly to the camera, using natural gestures and warm eye contact. Cut to relevant real-world supporting shots while the same presenter continues explaining.',
+ conversation:'Show a believable conversation between a potential customer and a knowledgeable service provider. The customer asks a genuine question; the provider answers clearly and demonstrates the value. Use natural pauses and reactions.',
+ demo:'Show a real adult using or demonstrating the advertised product or service in a believable setting. Include close-up detail shots, practical use, and a clear benefit. Avoid fake interface text or impossible product actions.',
+ story:'Tell a compact visual story: show the customer problem first, introduce the service as the solution, demonstrate how it helps, then finish with a confident positive outcome. Keep the result realistic and not exaggerated.',
+ team:'Show a small, professional team in a real workplace. One person introduces the service, another demonstrates how it works, and a team member closes with the main benefit and invitation to act.'
+ };
+ const prompt='Create a polished, photorealistic human-explainer advertisement based on the script below.\n\nFORMAT: Vertical 9:16 for TikTok, Instagram Reels and YouTube Shorts; 30–45 seconds total, edited from short coherent shots.\nVISUAL STYLE: Live-action realism, natural skin texture, believable facial expressions, accurate hands, authentic body movement, soft professional lighting, clean composition, realistic Nigerian/African people and locations when appropriate. Do not use cartoons, 3D characters, plastic-looking faces or artificial-looking movement.\nCONCEPT: '+concepts[mode]+'\nCHARACTER CONTINUITY: Keep the same person’s face, age, hairstyle, clothing and voice consistent across every shot. Use a clear, friendly Nigerian-English delivery if suitable. Do not impersonate a real person.\nSHOT PLAN: 1) Strong visual hook in the first 2 seconds. 2) Show the audience’s problem. 3) Let the presenter explain the solution in simple language. 4) Show a real demonstration or supporting visual. 5) Present 2–3 concrete benefits. 6) Finish with a confident call to action and leave clean space for the brand logo/contact details.\nCAMERA: Mix medium presenter shots, natural close-ups and relevant cutaways; use gentle camera movement, eye-level framing and clean edits. Avoid random transitions, excessive zooms, unreadable generated text and unnecessary scene changes.\nAUDIO: Clear synchronized spoken dialogue, natural voice, subtle background music below speech, realistic ambience. Speak the provided message faithfully; do not invent prices, guarantees, statistics or claims. Add readable captions during editing if the video model cannot render text accurately.\nSCRIPT / BUSINESS DETAILS:\n'+script+'\n\nOUTPUT: A credible, warm, persuasive advertisement that feels filmed by a professional video team, with a clear beginning, explanation, demonstration and call to action.';
+ $('realHumanPrompt').value=prompt;
+ $('st').textContent='Realistic video prompt created. Copy it into Google AI Studio or your supported video-generation tool.';
+}
+$('makeRealHuman').onclick=createRealHumanPrompt;
+$('copyRealHuman').onclick=async()=>{
+ const value=$('realHumanPrompt').value.trim();
+ if(!value){createRealHumanPrompt();return}
+ try{await navigator.clipboard.writeText(value);$('st').textContent='Prompt copied. Paste it into Google AI Studio or your video-generation tool.'}
+ catch(e){$('realHumanPrompt').focus();$('realHumanPrompt').select();$('st').textContent='Prompt selected. Use Copy from your device or long-press the text to copy.'}
+};$('sbj').oninput=e=>{try{setSB(JSON.parse(e.target.value),1);$('st').textContent=''}catch(x){$('st').textContent='Storyboard JSON has an error. Fix it to update the preview.'}};
 const PROMPT=s=>'You are an ad storyboard director. Turn the ad script below into a short animated video plan. Reply with ONLY JSON: {"type":"one of growth|retail|food|fashion|tech|auto|property|beauty|edu|office|gym|farm|health","style":"flat (colorful cartoon) or board (whiteboard sketch) or human (clean explainer with people)","brand":"","tagline":"","palette":{"accent":"#hex","top":"#hex dark","bottom":"#hex dark"},"scenes":[{"k":"hook","t":"headline, max 8 words","s":"one short hook line"},{"k":"story","t":"problem or key message","s":"supporting line"},{"k":"demo","t":"show the product or service","s":"short explanation"},{"k":"steps","t":"how it works","items":["step one","step two","step three"]},{"k":"testimonial","t":"customer quote","s":"supporting line"},{"k":"stats","t":"results headline","items":["result one","result two"]},{"k":"compare","t":"before and after","s":"transformation line"},{"k":"presenter","t":"a person explains the solution","s":"short spoken-style explanation","items":["key point one","key point two"]},{"k":"conversation","t":"customer question","s":"helpful reply","items":["main benefit"]},{"k":"team","t":"team collaboration headline","s":"supporting line"},{"k":"list","t":"short title","items":["max 6 short benefits"]},{"k":"offer","t":"offer text without the price","p":"price such as ₦3,000 or 50% OFF"},{"k":"cta","t":"call to action"}]}. Use 4 to 8 scenes, always start with hook and end with cta. For human-style explainer videos, add presenter, conversation or team scenes where appropriate, and include people visibly acting, talking, gesturing and demonstrating the service. Add demo, steps, testimonial, stats or compare when the script supports them. Omit irrelevant scene types, list or offer when absent. Pick the type and colors that fit the business. Keep the script language. SCRIPT:\n'+s;
 let sm=null;
 async function ai(tx){const k=$('ky').value.trim();if(k){const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+encodeURIComponent(k),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:PROMPT(tx)}]}],generationConfig:{responseMimeType:'application/json'}})});const j=await r.json();return JSON.parse(j.candidates[0].content.parts[0].text)}
