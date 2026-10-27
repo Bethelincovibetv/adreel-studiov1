@@ -42,7 +42,7 @@ Stop relying only on people who already know your business. Let’s help more po
 
 GGD Ad Network — Helping Businesses Grow.</textarea>
 <div class="row"><button id="bb">✨ Smart build</button><button id="cl" class="sec">Clear</button></div>
-<label for="tpl">Graphic template</label><select id="tpl"><option value="auto">Auto — match the ad script</option><option value="bold">Bold Business Promo</option><option value="luxury">Premium Luxury</option><option value="sale">Big Sale / Discount</option><option value="neon">Neon Tech</option><option value="food">Food & Restaurant</option><option value="beauty">Beauty & Fashion</option><option value="gospel">Gospel & Church Event</option><option value="corporate">Corporate Clean</option><option value="property">Real Estate</option><option value="whiteboard">Whiteboard Explainer</option><option value="human">Human Presenter Explainer</option></select><p class="mut">Choose a visual direction, then build your ad. You can still change the animation style below.</p><input type="text" id="ky" placeholder="Gemini API key (optional, enables AI storyboard when self-hosted)" autocomplete="off"><select id="sty"><option value="auto">Style: Auto (AI / built-in picks)</option><option value="flat">Style: Flat cartoon</option><option value="board">Style: Whiteboard sketch</option><option value="human">Style: Human explainer</option></select><div id="st" class="mut"></div>
+<label for="tpl">Graphic template</label><select id="tpl"><option value="auto">Auto — match the ad script</option><option value="bold">Bold Business Promo</option><option value="luxury">Premium Luxury</option><option value="sale">Big Sale / Discount</option><option value="neon">Neon Tech</option><option value="food">Food & Restaurant</option><option value="beauty">Beauty & Fashion</option><option value="gospel">Gospel & Church Event</option><option value="corporate">Corporate Clean</option><option value="property">Real Estate</option><option value="whiteboard">Whiteboard Explainer</option><option value="human">Human Presenter Explainer</option><option value="cinema">3D Cinematic Story</option></select><p class="mut">Choose a visual direction, then build your ad. You can still change the animation style below.</p><input type="text" id="ky" placeholder="Gemini API key (optional, enables AI storyboard when self-hosted)" autocomplete="off"><select id="sty"><option value="auto">Style: Auto (AI / built-in picks)</option><option value="flat">Style: Flat cartoon</option><option value="board">Style: Whiteboard sketch</option><option value="human">Style: Human explainer</option><option value="cinema">Style: 3D cinematic humans</option></select><div id="st" class="mut"></div>
 <section class="card" id="realHumanStudio" style="margin:14px 0;padding:14px;border:1px solid var(--bd);border-radius:14px;background:var(--card)">
 <h3 style="margin:0 0 6px">🎬 Google Real-Human Explainer Studio</h3>
 <p class="mut" style="margin:0 0 10px">Create a realistic-video prompt for Google AI Studio. This prepares the concept and scene directions; realistic video generation happens in your connected video-generation tool, not in this canvas preview.</p>
@@ -77,7 +77,29 @@ GGD Ad Network — Helping Businesses Grow.</textarea>
 <p class="mut" style="margin-bottom:0">Tip: paste your own script first. Choose “Style: Whiteboard sketch” to get the hand-drawn reveal effect. Each scene type uses a different illustration layout.</p>
 </section>
 <section style="margin:14px 0;padding:14px;border:1px solid var(--bd);border-radius:14px;background:var(--card)"><h3 style="margin:0 0 6px">🎥 3D Cinematic Human Studio</h3><p class="mut">New, separate scene concepts with different human characters, settings, camera compositions and effects. Open the cinematic scene designer without changing your existing storyboard.</p><a href="./cinematic-human-studio.html" style="display:block;text-decoration:none;text-align:center;background:var(--ac);color:#fff;border-radius:12px;padding:12px 16px;font-weight:700">Open Cinematic Human Studio ↗</a></section>
-<canvas id="cv" width="720" height="1280"></canvas>
+
+<section class="card" id="cinematicStudio" style="margin:14px 0;padding:14px;border:1px solid var(--bd);border-radius:14px;background:var(--card)">
+<h3 style="margin:0 0 6px">🎥 3D Cinematic Human Animation Studio</h3>
+<p class="mut" style="margin:0 0 10px">Build a distinct cinematic story with varied characters, locations, lighting, camera-inspired framing, and effects. These are custom canvas illustrations, not photorealistic AI video footage.</p>
+<label for="cinemaConcept">Choose a cinematic concept</label>
+<select id="cinemaConcept">
+<option value="business">Entrepreneur's breakthrough — shop, customer, success</option>
+<option value="customer">Customer problem — conversation — solution</option>
+<option value="product">Product showcase — close-up — benefits</option>
+<option value="team">Team collaboration — workplace — result</option>
+<option value="journey">Personal journey — challenge — transformation</option>
+<option value="food">Restaurant experience — chef — happy guests</option>
+<option value="fashion">Fashion / beauty — model — premium reveal</option>
+<option value="property">Real estate — agent — property tour</option>
+<option value="tech">Tech innovation — user — digital future</option>
+<option value="community">Community story — people — shared impact</option>
+<option value="gospel">Gospel / inspirational story — hope — invitation</option>
+<option value="luxury">Premium brand film — dramatic reveal — offer</option>
+</select>
+<div class="row"><button type="button" id="buildCinema">🎬 Build cinematic story</button></div>
+<p class="mut" style="margin-bottom:0">Each concept uses a different scene order, character mix, color grade and cinematic effects. Use Play to preview, then Record & download.</p>
+</section>
+\n<canvas id="cv" width="720" height="1280"></canvas>
 <input type="range" id="sk" min="0" max="1000" value="0"><div id="pg"><i></i></div>
 <div class="row"><button id="pl">▶ Play</button><button id="rc">⏺ Record &amp; download</button></div>
 <div id="out"></div>
@@ -97,14 +119,64 @@ function T(s,a,b,sz,f=WH,al=1,o={}){if(al<=.01||!s)return;if(BQ){BQ.push([s,a,b,
 c.textAlign=o.a||'center';c.textBaseline='middle';c.globalAlpha=cp(al);if(o.sh){c.fillStyle='rgba(0,0,0,.4)';c.fillText(s,a+2,b+4)}c.fillStyle=f;c.fillText(s,a,b);c.globalAlpha=1}
 function wl(s,sz,w,bd=true){c.font=(bd?'bold ':'')+sz+'px '+FF;let ls=[],t='';String(s).split(/\s+/).forEach(q=>{const u=(t+' '+q).trim();if(c.measureText(u).width<=w||!t)t=u;else{ls.push(t);t=q}});ls.push(t);return ls}
 function Pa(s,a,b,sz,w,f=WH,al=1,o={}){const ls=wl(s,sz,w,o.b!==false);ls.forEach((l,i)=>T(l,a,b+i*sz*1.3+sz/2,sz,f,al,Object.assign({w},o)));return ls.length*sz*1.3}
-function person(a,b,s,o){const ph=o.ph||0,bo=o.bob||0,yb=b-Math.abs(Math.sin(ph))*4*s*bo;
+function flatPerson(a,b,s,o){const ph=o.ph||0,bo=o.bob||0,yb=b-Math.abs(Math.sin(ph))*4*s*bo;
 for(const sd of[-1,1]){const lx=a+sd*9*s+Math.sin(ph)*sd*8*s*bo;R(lx-6*s,yb-38*s,12*s,35*s,'#1c2646',5*s);R(lx-8*s,yb-5*s,18*s,7*s,'#0f0f14',3*s)}
 if(o.fem){Ci(a,yb-104*s,23*s,o.hair);R(a-23*s,yb-104*s,46*s,32*s,o.hair,8*s)}if(o.hs==1)Ci(a,yb-114*s,27*s,o.hair);
 for(const sd of[-1,1]){const sh=[a+sd*20*s,yb-80*s],h=(o.wv!=null&&sd==1)?[a+38*s,yb-118*s+Math.sin(o.wv)*8*s]:[a+sd*29*s-Math.sin(ph)*sd*9*s*bo,yb-46*s];Ln([sh,h],o.shirt,9*s);Ci(h[0],h[1],5.5*s,o.skin)}
 R(a-21*s,yb-88*s,42*s,52*s,o.shirt,12*s);if(o.apron)R(a-15*s,yb-68*s,30*s,32*s,WH,6*s);
 Ci(a,yb-108*s,19*s,o.skin);c.fillStyle=o.hair;c.beginPath();c.arc(a,yb-109*s,20*s,Math.PI,0);c.fill();if(o.hs==3)Ci(a,yb-133*s,9*s,o.hair);if(o.hs==4){const w=o.wrap||RD;Ci(a-7*s,yb-128*s,16*s,w);Ci(a+10*s,yb-126*s,14*s,w);R(a-21*s,yb-124*s,42*s,14*s,w,6*s)}if(o.gl){c.strokeStyle='#222';c.lineWidth=2*s;[-7,7].forEach(q=>{c.beginPath();c.arc(a+q*s,yb-107*s,6*s,0,7);c.stroke()});Ln([[a-s,yb-107*s],[a+s,yb-107*s]],'#222',2*s)}if(o.tie)P([[a-4*s,yb-88*s],[a+4*s,yb-88*s],[a+3*s,yb-60*s],[a,yb-54*s],[a-3*s,yb-60*s]],RD);if(o.bag)R(a-34*s,yb-60*s,16*s,22*s,'#8a5a2b',4*s);if(o.pn)R(a+28*s,yb-58*s,9*s,16*s,'#111',2*s);
 Ci(a-7*s,yb-107*s,2.2*s,'#191414');Ci(a+7*s,yb-107*s,2.2*s,'#191414');c.strokeStyle='#3c1914';c.lineWidth=2.2*s;c.beginPath();o.happy!==false?c.arc(a,yb-104*s,8*s,.35,2.8):c.arc(a,yb-96*s,8*s,3.5,5.9);c.stroke()}
-function shop(cx,g,w,h,nm){const x0=cx-w/2,tp=g-h;R(x0,tp+60,w,h-60,'#faebcd',6);R(x0+24,tp+135,w*.42-24,110,'#96d2f0',10);R(cx+w*.12,tp+120,w*.38-24,h-120,'#7d4b2a',8);Ci(x0+w-42,g-90,5,GD);
+
+function cinemaPerson(a,b,s,o){
+ const ph=o.ph||0,bo=o.bob||0,yb=b-Math.abs(Math.sin(ph))*3*s*bo;
+ const shade=(x,y,w,h,cols,r)=>{const gr=c.createLinearGradient(x,y,x+w,y+h);cols.forEach((v,i)=>gr.addColorStop(i/(cols.length-1),v));R(x,y,w,h,gr,r)};
+ // Grounded contact shadow, shaped clothing, layered limbs and face highlights create a more dimensional look.
+ c.save();c.globalAlpha=.24;Ci(a+5*s,b-1*s,31*s,'#000');c.restore();
+ for(const sd of [-1,1]){
+   const lx=a+sd*10*s+Math.sin(ph)*sd*6*s*bo;
+   Ln([[lx,yb-38*s],[lx+sd*2*s,yb-8*s]],'#182032',11*s);
+   Ln([[lx,yb-38*s],[lx+sd*2*s,yb-8*s]],'#38445b',6*s);
+   shade(lx-9*s,yb-10*s,20*s,8*s,['#0d1423','#303b50','#080d18'],4*s);
+ }
+ // Back hair / head wrap
+ if(o.fem) Ci(a,yb-107*s,23*s,o.hair);
+ if(o.hs===1)Ci(a,yb-114*s,26*s,o.hair);
+ // Arms with separate shadow and highlight strokes
+ for(const sd of [-1,1]){
+   const shoulder=[a+sd*18*s,yb-79*s];
+   const hand=(o.wv!=null&&sd===1)?[a+35*s,yb-116*s+Math.sin(o.wv)*8*s]:[a+sd*31*s-Math.sin(ph)*sd*8*s*bo,yb-46*s];
+   Ln([shoulder,hand],'#111827',11*s);Ln([shoulder,hand],o.shirt,7*s);Ci(hand[0],hand[1],5*s,o.skin);
+ }
+ shade(a-23*s,yb-89*s,46*s,53*s,['#111827',o.shirt,'#ffffff'],12*s);
+ // garment side seam and collar
+ Ln([[a-14*s,yb-81*s],[a-12*s,yb-44*s]],'rgba(255,255,255,.35)',2*s);
+ P([[a-8*s,yb-88*s],[a,yb-78*s],[a+8*s,yb-88*s]],o.fem?'#f8e9df':'#e8edf6');
+ // Face with subtle highlight/shadow
+ const fg=c.createRadialGradient(a-7*s,yb-116*s,2*s,a,yb-105*s,25*s);fg.addColorStop(0,'#ffe0bd');fg.addColorStop(.62,o.skin);fg.addColorStop(1,'#68412e');
+ Ci(a,yb-107*s,19*s,fg);
+ c.fillStyle=o.hair;c.beginPath();c.ellipse(a,yb-116*s,20*s,13*s,0,Math.PI,Math.PI*2);c.fill();
+ if(o.hs===3){Ci(a,yb-132*s,9*s,o.hair)}
+ if(o.hs===4){Ci(a-7*s,yb-128*s,15*s,o.wrap||RD);Ci(a+9*s,yb-126*s,14*s,o.wrap||RD);shade(a-21*s,yb-126*s,42*s,13*s,[o.wrap||RD,'#fff0f0',o.wrap||RD],5*s)}
+ if(o.gl){c.strokeStyle='#252b36';c.lineWidth=2*s;[-7,7].forEach(q=>{c.beginPath();c.arc(a+q*s,yb-108*s,6*s,0,7);c.stroke()});Ln([[a-s,yb-108*s],[a+s,yb-108*s]],'#252b36',2*s)}
+ Ci(a-7*s,yb-108*s,2*s,'#171717');Ci(a+7*s,yb-108*s,2*s,'#171717');
+ c.strokeStyle='#613b30';c.lineWidth=2*s;c.beginPath();o.happy===false?c.arc(a,yb-97*s,7*s,3.5,5.9):c.arc(a,yb-104*s,7*s,.35,2.8);c.stroke();
+ if(o.tie)P([[a-4*s,yb-88*s],[a+4*s,yb-88*s],[a+3*s,yb-60*s],[a,yb-54*s],[a-3*s,yb-60*s]],'#e74b55');
+ if(o.bag)shade(a-34*s,yb-61*s,16*s,24*s,['#d09a56','#70401e','#382417'],4*s);
+ if(o.pn)shade(a+28*s,yb-59*s,9*s,17*s,['#9fb2c9','#151d2a','#05070c'],2*s);
+}
+function person(a,b,s,o){if(d.style==='cinema')return cinemaPerson(a,b,s,o);return flatPerson(a,b,s,o)}
+function cinemaAtmosphere(t){
+ const w=720,h=1280;
+ // Deep cinematic grade with stage-like light beams and a soft vignette.
+ const bg=c.createLinearGradient(0,0,w,h);bg.addColorStop(0,d.pal[1]||'#071323');bg.addColorStop(.55,'#17263d');bg.addColorStop(1,d.pal[2]||'#050b18');c.fillStyle=bg;c.fillRect(0,0,w,h);
+ c.save();c.globalAlpha=.13;
+ for(let i=0;i<4;i++){const x=100+i*190+Math.sin(t*.5+i)*35;c.fillStyle=i%2?'#8ecbff':(d.pal[0]||'#e9bc73');c.beginPath();c.moveTo(x-22,0);c.lineTo(x+75,0);c.lineTo(x+250,1280);c.lineTo(x-200,1280);c.closePath();c.fill()}
+ c.restore();
+ for(let i=0;i<30;i++){const x=(i*137+Math.sin(t+i)*24)%720,y=(i*191+t*(18+i%4*9))%1280;Ci(x,y,1.5+(i%3),i%2?'#ffffff':(d.pal[0]||GD),.18+.18*Math.sin(t+i)**2)}
+ const vg=c.createRadialGradient(360,520,200,360,640,850);vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(0,0,0,.55)');c.fillStyle=vg;c.fillRect(0,0,w,h);
+ const flare=cp(.3+.2*Math.sin(t*1.4),.08,.55);Ci(560+Math.sin(t)*35,250,75,'#fff2cf',flare*.16);Ci(560+Math.sin(t)*35,250,26,'#ffffff',flare*.12);
+}
+\nfunction shop(cx,g,w,h,nm){const x0=cx-w/2,tp=g-h;R(x0,tp+60,w,h-60,'#faebcd',6);R(x0+24,tp+135,w*.42-24,110,'#96d2f0',10);R(cx+w*.12,tp+120,w*.38-24,h-120,'#7d4b2a',8);Ci(x0+w-42,g-90,5,GD);
 const n=8,sw=(w+30)/n;for(let i=0;i<n;i++){const f=i%2?WH:G;R(x0-15+i*sw,tp+22,sw,58,f);Ci(x0-15+i*sw+sw/2,tp+80,sw/2,f)}
 R(x0-15,tp+14,w+30,14,DG,6);R(cx-w*.3,tp-22,w*.6,36,DG,10);T(nm,cx,tp-4,24,WH,1,{w:w*.52})}
 function phone(cx,cy,w,h,al=1){const x0=cx-w/2,y0=cy-h/2,rr=Math.min(w,h)*.11,hh=h*.12;R(x0-7,y0-7,w+14,h+14,'#12161e',rr+6,al);R(x0,y0,w,h,'#e8e0d6',rr,al);R(x0,y0,w,hh+rr,DG,rr,al);R(x0,y0+hh,w,rr+1,'#e8e0d6',0,al);Ci(x0+hh*.7,y0+hh/2+2,hh*.32,G,al);T(d.brand||'Your Brand',x0+hh*1.15,y0+hh/2+2,hh*.32,WH,al,{a:'left',w:w-hh*1.4});return[x0,y0+hh,x0+w,y0+h]}
@@ -185,10 +257,14 @@ for(let k=0;k<230400;k++)g[k]=(s[k*4]+s[k*4+1]+s[k*4+2])/3;
 for(let y=0;y<640;y++)for(let x=0;x<360;x++){const k=y*360+x;let m=0;if(y>0&&y<639&&x>0&&x<359){const gx=g[k+1]*2+g[k-359]+g[k+361]-g[k-1]*2-g[k-361]-g[k+359],gy=g[k+360]*2+g[k+361]+g[k+359]-g[k-360]*2-g[k-359]-g[k-361];m=Math.min(1,(Math.abs(gx)+Math.abs(gy))/260)}
 const j=k*4,r=s[j],gg=s[j+1],b=s[j+2],f=Math.max(r,gg,b)-Math.min(r,gg,b)>40?.55:0;o[j]=(251+(r-251)*f)*(1-m)+30*m;o[j+1]=(250+(gg-250)*f)*(1-m)+30*m;o[j+2]=(244+(b-244)*f)*(1-m)+40*m;o[j+3]=255}
 ecx.putImageData(out,0,0)}
+function cinemaGrade(t){
+ const wash=c.createLinearGradient(0,0,720,1280);wash.addColorStop(0,'rgba(255,210,150,.04)');wash.addColorStop(.5,'rgba(30,80,130,.02)');wash.addColorStop(1,'rgba(0,0,0,.18)');c.fillStyle=wash;c.fillRect(0,0,720,1280);
+ const p=.5+.5*Math.sin(t*2.1);c.save();c.globalAlpha=.22*p;c.strokeStyle=d.pal[0]||GD;c.lineWidth=3;c.beginPath();c.ellipse(360,650,300+8*Math.sin(t),480+12*Math.sin(t*.7),0,0,7);c.stroke();c.restore();
+}
 function frame(t){const pl=plan();LIGHT=d.style=='human';let i=pl.st.findLastIndex(q=>t>=q);if(i<0)i=0;const lt=t-pl.st[i];
 if(d.style=='board'){BQ=[];c=oct;c.fillStyle='#000';c.fillRect(0,0,720,1280);SCN[d.sc[i].k](d.sc[i],lt);c=mc;const q=BQ;BQ=null;sketch();const ry=1280*eio(pr(lt,0,2.2));
 c.fillStyle='#fbfaf4';c.fillRect(0,0,720,1280);c.save();c.beginPath();c.rect(0,0,720,ry);c.clip();c.imageSmoothingEnabled=true;c.drawImage(ec,0,0,720,1280);q.forEach(a=>{a[4]='#1b1b24';a[6]=Object.assign({},a[6],{sh:0});T(...a)});c.restore();if(ry<1270)hand(360+Math.sin(t*9)*300,ry)}
-else{c.clearRect(0,0,720,1280);const gr=c.createLinearGradient(0,0,0,1280);gr.addColorStop(0,LIGHT?'#ffffff':d.pal[1]);gr.addColorStop(1,LIGHT?'#dce8fd':d.pal[2]);c.fillStyle=gr;c.fillRect(0,0,720,1280);if(!LIGHT)bokeh(t);SCN[d.sc[i].k](d.sc[i],lt)}
+else{c.clearRect(0,0,720,1280);if(d.style==='cinema'){cinemaAtmosphere(t);SCN[d.sc[i].k](d.sc[i],lt);cinemaGrade(t)}else{const gr=c.createLinearGradient(0,0,0,1280);gr.addColorStop(0,LIGHT?'#ffffff':d.pal[1]);gr.addColorStop(1,LIGHT?'#dce8fd':d.pal[2]);c.fillStyle=gr;c.fillRect(0,0,720,1280);if(!LIGHT)bokeh(t);SCN[d.sc[i].k](d.sc[i],lt)}}
 for(let k=1;k<pl.st.length;k++){const q=t-pl.st[k];if(q>=-.25&&q<0){const p=eio((q+.25)/.25),xl=720*(1-p);R(xl-40,0,800,1280,DG);R(xl,0,800,1280,G)}else if(q>=0&&q<.25){const p=eio(q/.25),xr=720*(1-p);R(0,0,xr+40,1280,DG);R(0,0,xr,1280,G)}}}
 
 /* ---- parsing ---- */
@@ -226,7 +302,7 @@ gospel:{type:'office',style:'flat',pal:['#ffd66b','#17113b','#522b86']},
 corporate:{type:'office',style:'human',pal:['#6bb7ff','#091a36','#174d80']},
 property:{type:'property',style:'human',pal:['#56e0b5','#082d2d','#17665a']},
 whiteboard:{type:'edu',style:'board',pal:['#ffd24d','#101a3a','#2a3f9a']},
-human:{type:'office',style:'human',pal:['#63b8ff','#091a36','#17528a']}
+human:{type:'office',style:'human',pal:['#63b8ff','#091a36','#17528a']},\ncinema:{type:'office',style:'cinema',pal:['#e8c477','#081321','#142b48']}
 };
 function applyTemplate(){
  const key=$('tpl').value, t=TEMPLATES[key];
@@ -240,7 +316,37 @@ function applyTemplate(){
 $('tpl').onchange=()=>{if($('tpl').value==='auto'){if(lastSB)setSB(lastSB);return}applyTemplate()};
 
 
-function buildWhiteboardStory(){
+
+function buildCinematicStory(){
+ const tx=$('sc').value.trim();if(!tx){$('st').textContent='Paste your ad script first, then build a cinematic story.';return}
+ const o=parse(tx),brand=o.brand||'Your Business',headline=o.headline||'A Better Way to Move Forward',problem=o.problem||'Customers need a better way to solve this challenge.',solution=o.intro||o.extra||'A practical solution designed around real people.',benefits=(o.features||[]).filter(Boolean).slice(0,4),mode=$('cinemaConcept').value;
+ const hook={k:'hook',t:headline,s:o.question||'See what becomes possible.'},story={k:'story',t:problem,s:solution},presenter={k:'presenter',t:'MEET THE PEOPLE BEHIND THE SOLUTION',s:solution,items:benefits.slice(0,2)},demo={k:'demo',t:'A CLOSER LOOK',s:solution,items:benefits.slice(0,3)},conversation={k:'conversation',t:'CAN THIS HELP ME?',s:solution,items:benefits.slice(0,2)},team={k:'team',t:'PEOPLE. PURPOSE. PROGRESS.',s:solution},testimonial={k:'testimonial',t:'A DIFFERENCE PEOPLE CAN FEEL',s:solution},compare={k:'compare',t:'FROM CHALLENGE TO CHANGE',s:problem+' → '+solution},offer={k:'offer',t:o.offer||'DISCOVER THE DIFFERENCE',s:solution,p:o.price||'GET STARTED'},cta={k:'cta',t:o.cta||('Connect with '+brand+' today')};
+ let scenes;
+ const stories={
+ business:[hook,story,conversation,demo,team,offer,cta],
+ customer:[story,conversation,presenter,demo,testimonial,cta],
+ product:[hook,demo,presenter,compare,offer,cta],
+ team:[hook,team,conversation,demo,testimonial,cta],
+ journey:[story,compare,presenter,demo,team,cta],
+ food:[hook,{k:'demo',t:'MADE FRESH. SERVED WITH CARE.',s:solution,items:benefits.slice(0,3)},conversation,testimonial,offer,cta],
+ fashion:[hook,presenter,demo,compare,offer,cta],
+ property:[hook,story,demo,presenter,compare,cta],
+ tech:[hook,story,demo,conversation,statsScene(benefits),offer,cta],
+ community:[hook,conversation,team,testimonial,compare,cta],
+ gospel:[story,presenter,team,testimonial,hook,cta],
+ luxury:[hook,demo,compare,presenter,offer,cta]
+ };
+ scenes=stories[mode]||stories.business;
+ scenes=scenes.map((q,i)=>({...q,items:q.items&&q.items.length?q.items:(i%2===0?benefits.slice(0,2):[])}));
+ const palettes={business:['#e8c477','#081321','#142b48'],customer:['#71d7d1','#091b2a','#123e53'],product:['#f0c66b','#10121e','#382c4b'],team:['#79baff','#08182c','#173d5b'],journey:['#a8d9ff','#111a2b','#3c2b4f'],food:['#ffb06c','#26120e','#7e321c'],fashion:['#ffc5dc','#201221','#6d355c'],property:['#80e0c0','#082326','#14564f'],tech:['#60eaff','#07132b','#2b1c68'],community:['#f3c0a6','#20162a','#6c304f'],gospel:['#f7d989','#151238','#4b2b75'],luxury:['#e8c477','#100f14','#443044']};
+ const pal=palettes[mode]||palettes.business;
+ setSB({type:mode==='tech'?'tech':mode==='food'?'food':mode==='fashion'?'fashion':mode==='property'?'property':'office',style:'cinema',brand,tagline:o.tagline||'',palette:{accent:pal[0],top:pal[1],bottom:pal[2]},scenes});
+ $('sty').value='cinema';$('tpl').value='cinema';
+ $('st').textContent='Cinematic story built: '+scenes.length+' varied scenes, character animation, dramatic lighting and a '+mode+' visual concept. Press Play to preview, then Record & download.';
+}
+function statsScene(benefits){return{k:'stats',t:'BENEFITS THAT MATTER',items:benefits.length?benefits:['More confidence','A smoother experience','A clear next step']}}
+$('buildCinema').onclick=buildCinematicStory;
+\nfunction buildWhiteboardStory(){
  const tx=$('sc').value.trim();
  if(!tx){$('st').textContent='Paste your script first, then build a whiteboard story.';return}
  const o=parse(tx), brand=o.brand||'Your Business', headline=o.headline||'A Better Way to Get Things Done', problem=o.problem||'Many people face this challenge every day.', solution=o.intro||o.extra||'Here is a simple, practical solution.', benefits=(o.features||[]).filter(Boolean).slice(0,4);
