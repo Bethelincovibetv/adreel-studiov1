@@ -340,8 +340,8 @@ function buildCinematicStory(){
  scenes=scenes.map((q,i)=>({...q,items:q.items&&q.items.length?q.items:(i%2===0?benefits.slice(0,2):[])}));
  const palettes={business:['#e8c477','#081321','#142b48'],customer:['#71d7d1','#091b2a','#123e53'],product:['#f0c66b','#10121e','#382c4b'],team:['#79baff','#08182c','#173d5b'],journey:['#a8d9ff','#111a2b','#3c2b4f'],food:['#ffb06c','#26120e','#7e321c'],fashion:['#ffc5dc','#201221','#6d355c'],property:['#80e0c0','#082326','#14564f'],tech:['#60eaff','#07132b','#2b1c68'],community:['#f3c0a6','#20162a','#6c304f'],gospel:['#f7d989','#151238','#4b2b75'],luxury:['#e8c477','#100f14','#443044']};
  const pal=palettes[mode]||palettes.business;
- setSB({type:mode==='tech'?'tech':mode==='food'?'food':mode==='fashion'?'fashion':mode==='property'?'property':'office',style:'cinema',brand,tagline:o.tagline||'',palette:{accent:pal[0],top:pal[1],bottom:pal[2]},scenes});
  $('sty').value='cinema';$('tpl').value='cinema';
+ setSB({type:mode==='tech'?'tech':mode==='food'?'food':mode==='fashion'?'fashion':mode==='property'?'property':'office',style:'cinema',brand,tagline:o.tagline||'',palette:{accent:pal[0],top:pal[1],bottom:pal[2]},scenes});
  $('st').textContent='Cinematic story built: '+scenes.length+' varied scenes, character animation, dramatic lighting and a '+mode+' visual concept. Press Play to preview, then Record & download.';
 }
 function statsScene(benefits){return{k:'stats',t:'BENEFITS THAT MATTER',items:benefits.length?benefits:['More confidence','A smoother experience','A clear next step']}}
