@@ -19,7 +19,16 @@ input[type=range]{width:100%;max-width:340px;display:block;margin:0 auto;accent-
 video{display:block;width:100%;max-width:340px;margin:10px auto;border-radius:14px}
 details{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px 12px;margin-top:14px}summary{font-weight:600;cursor:pointer}
 label{display:block;font-size:13px;color:var(--mut);margin-top:8px}
-select{width:100%;box-sizing:border-box;background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:12px;padding:10px 12px;font:inherit;margin-top:6px}</style></head><body><main>
+select{width:100%;box-sizing:border-box;background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:12px;padding:10px 12px;font:inherit;margin-top:6px}
+.market-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
+.market-card{display:flex;flex-direction:column;align-items:stretch;gap:5px;min-width:0;text-align:left;padding:8px;background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:12px}
+.market-card:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.market-card.selected{border:2px solid var(--ac);padding:7px;box-shadow:0 0 0 2px rgba(31,170,89,.12)}
+.market-art{height:90px;border-radius:8px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:900;font-size:17px;line-height:1.05;letter-spacing:.5px;color:white;text-shadow:0 2px 6px #0006}
+.art-bold{background:linear-gradient(135deg,#062c36,#20d879)}.art-luxury{background:linear-gradient(135deg,#17151b,#b99a55)}.art-sale{background:linear-gradient(135deg,#651522,#ff9f1c)}.art-neon{background:linear-gradient(135deg,#100b2d,#19e8ed)}.art-food{background:linear-gradient(135deg,#381509,#ff8d35)}.art-beauty{background:linear-gradient(135deg,#3d183c,#ff8fc7)}.art-gospel{background:linear-gradient(135deg,#17113b,#b18aff)}.art-corporate{background:linear-gradient(135deg,#091a36,#63b8ff)}.art-property{background:linear-gradient(135deg,#082d2d,#56e0b5)}.art-whiteboard{background:linear-gradient(135deg,#f8f7ed,#dce9ff);color:#1c2c3c;text-shadow:none;border:1px dashed #9aa6b4}.art-human{background:linear-gradient(135deg,#092344,#287cc4)}
+.market-card strong{font-size:13px;line-height:1.25}.market-card small{font-size:11px;line-height:1.35;color:var(--mut);font-weight:400}.market-use{font-size:12px;color:var(--ac);font-weight:800;margin-top:2px}
+@media(min-width:500px){.market-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style></head><body><main>
 <h1>🎬 AdReel Studio</h1>
 <p class="mut">Paste any ad script. AI plans the scenes, colors and visuals to fit your business, then you record the video.</p>
 <textarea id="sc" rows="9" placeholder="Paste your ad script here…">🚀 GROW YOUR BUSINESS WITH GGD AD NETWORK!
@@ -42,6 +51,26 @@ Stop relying only on people who already know your business. Let’s help more po
 
 GGD Ad Network — Helping Businesses Grow.</textarea>
 <div class="row"><button id="bb">✨ Smart build</button><button id="cl" class="sec">Clear</button></div>
+
+<section id="templateMarketplace" style="margin:14px 0;padding:14px;border:1px solid var(--bd);border-radius:14px;background:var(--card)">
+  <h3 style="margin:0 0 4px">🛍️ Template Marketplace</h3>
+  <p class="mut" style="margin:0 0 10px">Browse the available styles and tap a card to select it. Your script and storyboard stay in place.</p>
+  <div class="market-grid">
+    <button type="button" class="market-card" data-template="bold"><span class="market-art art-bold">BOLD<br>BUSINESS</span><strong>Bold Business Promo</strong><small>Bright, energetic business ads</small><span class="market-use">Select template →</span></button>
+    <button type="button" class="market-card" data-template="luxury"><span class="market-art art-luxury">LUXE<br>COLLECTION</span><strong>Premium Luxury</strong><small>Elegant, premium presentation</small><span class="market-use">Select template →</span></button>
+    <button type="button" class="market-card" data-template="sale"><span class="market-art art-sale">BIG SALE<br>UP TO 50%</span><strong>Big Sale / Discount</strong><small>Promotional offers and sales</small><span class="market-use">Select template →</span></button>
+    <button type="button" class="market-card" data-template="neon"><span class="market-art art-neon">NEXT<br>GEN</span><strong>Neon Tech</strong><small>Digital products and technology</small><span class="market-use">Select template →</span></button>
+    <button type="button" class="market-card" data-template="food"><span class="market-art art-food">FRESH<br>& TASTY</span><strong>Food & Restaurant</strong><small>Food, dining and hospitality</small><span class="market-use">Select template →</span></button>
+    <button type="button" class="market-card" data-template="beauty"><span class="market-art art-beauty">BEAUTY<br>STUDIO</span><strong>Beauty & Fashion</strong><small>Fashion, beauty and lifestyle</small><span class="market-use">Select template →</span></button>
+    <button type="button" class="market-card" data-template="gospel"><span class="market-art art-gospel">FAITH<br>& PRAISE</span><strong>Gospel & Church</strong><small>Church events and inspiration</small><span class="market-use">Select template →</span></button>
+    <button type="button" class="market-card" data-template="corporate"><span class="market-art art-corporate">TRUSTED<br>SOLUTIONS</span><strong>Corporate Clean</strong><small>Professional service promotions</small><span class="market-use">Select template →</span></button>
+    <button type="button" class="market-card" data-template="property"><span class="market-art art-property">FIND YOUR<br>NEW HOME</span><strong>Real Estate</strong><small>Property and real estate ads</small><span class="market-use">Select template →</span></button>
+    <button type="button" class="market-card" data-template="whiteboard"><span class="market-art art-whiteboard">LET'S<br>EXPLAIN</span><strong>Whiteboard Explainer</strong><small>Sketch-style learning stories</small><span class="market-use">Select template →</span></button>
+    <button type="button" class="market-card" data-template="human"><span class="market-art art-human">MEET<br>THE EXPERT</span><strong>Human Presenter</strong><small>People-led explainer style</small><span class="market-use">Select template →</span></button>
+  </div>
+  <p id="marketStatus" class="mut" aria-live="polite" style="margin-bottom:0">Choose a card to select a template. Then tap Smart build to generate your ad.</p>
+</section>
+
 <label for="tpl">Graphic template</label><select id="tpl"><option value="auto">Auto — match the ad script</option><option value="bold">Bold Business Promo</option><option value="luxury">Premium Luxury</option><option value="sale">Big Sale / Discount</option><option value="neon">Neon Tech</option><option value="food">Food & Restaurant</option><option value="beauty">Beauty & Fashion</option><option value="gospel">Gospel & Church Event</option><option value="corporate">Corporate Clean</option><option value="property">Real Estate</option><option value="whiteboard">Whiteboard Explainer</option><option value="human">Human Presenter Explainer</option><option value="cinema">3D Cinematic Story</option></select><p class="mut">Choose a visual direction, then build your ad. You can still change the animation style below.</p><input type="text" id="ky" placeholder="Gemini API key (optional, enables AI storyboard when self-hosted)" autocomplete="off"><select id="sty"><option value="auto">Style: Auto (AI / built-in picks)</option><option value="flat">Style: Flat cartoon</option><option value="board">Style: Whiteboard sketch</option><option value="human">Style: Human explainer</option><option value="cinema">Style: 3D cinematic humans</option></select><div id="st" class="mut"></div>
 <section class="card" id="realHumanStudio" style="margin:14px 0;padding:14px;border:1px solid var(--bd);border-radius:14px;background:var(--card)">
 <h3 style="margin:0 0 6px">🎬 Google Real-Human Explainer Studio</h3>
@@ -99,7 +128,8 @@ GGD Ad Network — Helping Businesses Grow.</textarea>
 <div class="row"><button type="button" id="buildCinema">🎬 Build cinematic story</button></div>
 <p class="mut" style="margin-bottom:0">Each concept uses a different scene order, character mix, color grade and cinematic effects. Use Play to preview, then Record & download.</p>
 </section>
-\n<canvas id="cv" width="720" height="1280"></canvas>
+
+<canvas id="cv" width="720" height="1280"></canvas>
 <input type="range" id="sk" min="0" max="1000" value="0"><div id="pg"><i></i></div>
 <div class="row"><button id="pl">▶ Play</button><button id="rc">⏺ Record &amp; download</button></div>
 <div id="out"></div>
@@ -302,7 +332,8 @@ gospel:{type:'office',style:'flat',pal:['#ffd66b','#17113b','#522b86']},
 corporate:{type:'office',style:'human',pal:['#6bb7ff','#091a36','#174d80']},
 property:{type:'property',style:'human',pal:['#56e0b5','#082d2d','#17665a']},
 whiteboard:{type:'edu',style:'board',pal:['#ffd24d','#101a3a','#2a3f9a']},
-human:{type:'office',style:'human',pal:['#63b8ff','#091a36','#17528a']},\ncinema:{type:'office',style:'cinema',pal:['#e8c477','#081321','#142b48']}
+human:{type:'office',style:'human',pal:['#63b8ff','#091a36','#17528a']},
+cinema:{type:'office',style:'cinema',pal:['#e8c477','#081321','#142b48']}
 };
 function applyTemplate(){
  const key=$('tpl').value, t=TEMPLATES[key];
@@ -313,7 +344,19 @@ function applyTemplate(){
  $('sbj').value=JSON.stringify({type:d.type,style:d.style,brand:d.brand,tagline:d.tagline,palette:pa,scenes:d.sc.map(s=>{const r={k:s.k,t:s.t};if(s.s)r.s=s.s;if(s.p)r.p=s.p;if(s.items.length)r.items=s.items;return r})},null,1);
  draw();
 }
-$('tpl').onchange=()=>{if($('tpl').value==='auto'){if(lastSB)setSB(lastSB);return}applyTemplate()};
+$('tpl').onchange=()=>{if($('tpl').value==='auto'){if(lastSB)setSB(lastSB);document.querySelectorAll('.market-card').forEach(x=>x.classList.remove('selected'));return}document.querySelectorAll('.market-card').forEach(x=>x.classList.toggle('selected',x.dataset.template===$('tpl').value));applyTemplate()};
+
+document.querySelectorAll('.market-card').forEach(card=>{
+ card.addEventListener('click',()=>{
+  const key=card.dataset.template;
+  $('tpl').value=key;
+  document.querySelectorAll('.market-card').forEach(x=>{x.classList.toggle('selected',x===card);x.setAttribute('aria-pressed',x===card?'true':'false')});
+  if(lastSB)applyTemplate();
+  $('marketStatus').textContent='Selected: '+card.querySelector('strong').textContent+'. Paste or review your script, then tap Smart build.';
+  $('st').textContent='Template selected: '+card.querySelector('strong').textContent+'. Tap Smart build to create your ad.';
+ });
+});
+
 
 
 
@@ -346,7 +389,8 @@ function buildCinematicStory(){
 }
 function statsScene(benefits){return{k:'stats',t:'BENEFITS THAT MATTER',items:benefits.length?benefits:['More confidence','A smoother experience','A clear next step']}}
 $('buildCinema').onclick=buildCinematicStory;
-\nfunction buildWhiteboardStory(){
+
+function buildWhiteboardStory(){
  const tx=$('sc').value.trim();
  if(!tx){$('st').textContent='Paste your script first, then build a whiteboard story.';return}
  const o=parse(tx), brand=o.brand||'Your Business', headline=o.headline||'A Better Way to Get Things Done', problem=o.problem||'Many people face this challenge every day.', solution=o.intro||o.extra||'Here is a simple, practical solution.', benefits=(o.features||[]).filter(Boolean).slice(0,4);
