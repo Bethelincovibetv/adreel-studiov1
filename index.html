@@ -42,7 +42,7 @@ Stop relying only on people who already know your business. Let’s help more po
 
 GGD Ad Network — Helping Businesses Grow.</textarea>
 <div class="row"><button id="bb">✨ Smart build</button><button id="cl" class="sec">Clear</button></div>
-<input type="text" id="ky" placeholder="Gemini API key (optional, enables AI storyboard when self-hosted)" autocomplete="off"><select id="sty"><option value="auto">Style: Auto (AI / built-in picks)</option><option value="flat">Style: Flat cartoon</option><option value="board">Style: Whiteboard sketch</option><option value="human">Style: Human explainer</option></select><div id="st" class="mut"></div>
+<label for="tpl">Graphic template</label><select id="tpl"><option value="auto">Auto — match the ad script</option><option value="bold">Bold Business Promo</option><option value="luxury">Premium Luxury</option><option value="sale">Big Sale / Discount</option><option value="neon">Neon Tech</option><option value="food">Food & Restaurant</option><option value="beauty">Beauty & Fashion</option><option value="gospel">Gospel & Church Event</option><option value="corporate">Corporate Clean</option><option value="property">Real Estate</option><option value="whiteboard">Whiteboard Explainer</option></select><p class="mut">Choose a visual direction, then build your ad. You can still change the animation style below.</p><input type="text" id="ky" placeholder="Gemini API key (optional, enables AI storyboard when self-hosted)" autocomplete="off"><select id="sty"><option value="auto">Style: Auto (AI / built-in picks)</option><option value="flat">Style: Flat cartoon</option><option value="board">Style: Whiteboard sketch</option><option value="human">Style: Human explainer</option></select><div id="st" class="mut"></div>
 <canvas id="cv" width="720" height="1280"></canvas>
 <input type="range" id="sk" min="0" max="1000" value="0"><div id="pg"><i></i></div>
 <div class="row"><button id="pl">▶ Play</button><button id="rc">⏺ Record &amp; download</button></div>
@@ -172,6 +172,30 @@ if(!sc.length)sc=[{k:'hook',t:'Your Ad',s:'',p:'',items:[]}];if(sc[sc.length-1].
 return{type:ty,style:['flat','board','human'].includes(sb.style)?sb.style:'',brand:String(sb.brand||'Your Brand'),tagline:String(sb.tagline||''),pal:[HX.test(pa.accent)?pa.accent:pl[0],HX.test(pa.top)?pa.top:pl[1],HX.test(pa.bottom)?pa.bottom:pl[2]],sc}}
 let lastSB=null;function setSB(sb,keep){lastSB=sb;d=norm(sb);const v=$('sty').value;d.style=v!='auto'?v:(d.style||({edu:'board',tech:'human',office:'human',health:'human',growth:'human'}[d.type]||'flat'));G=d.pal[0];DG=d.pal[2];if(d.style=='human'){G='#4285f4';DG='#1a73e8'}const o=d.sc.find(s=>s.k=='offer');d.price=o?o.p:'';
 if(!keep)$('sbj').value=JSON.stringify({type:d.type,style:d.style,brand:d.brand,tagline:d.tagline,palette:{accent:d.pal[0],top:d.pal[1],bottom:d.pal[2]},scenes:d.sc.map(s=>{const r={k:s.k,t:s.t};if(s.s)r.s=s.s;if(s.p)r.p=s.p;if(s.items.length)r.items=s.items;return r})},null,1);tm=Math.min(tm,plan().tot-.1);draw()}
+
+const TEMPLATES={
+bold:{type:'growth',style:'flat',pal:['#31e981','#071c2b','#063e4b']},
+luxury:{type:'fashion',style:'human',pal:['#e8c56a','#17151b','#4b3445']},
+sale:{type:'retail',style:'flat',pal:['#ffcf33','#321016','#a51f32']},
+neon:{type:'tech',style:'flat',pal:['#42f5f5','#100b2d','#3d1b80']},
+food:{type:'food',style:'flat',pal:['#ff9b38','#321309','#a63d13']},
+beauty:{type:'beauty',style:'human',pal:['#ff8fc7','#271027','#793d78']},
+gospel:{type:'office',style:'flat',pal:['#ffd66b','#17113b','#522b86']},
+corporate:{type:'office',style:'human',pal:['#6bb7ff','#091a36','#174d80']},
+property:{type:'property',style:'human',pal:['#56e0b5','#082d2d','#17665a']},
+whiteboard:{type:'edu',style:'board',pal:['#ffd24d','#101a3a','#2a3f9a']}
+};
+function applyTemplate(){
+ const key=$('tpl').value, t=TEMPLATES[key];
+ if(!t||!lastSB){if(lastSB)setSB(lastSB);return}
+ d.type=t.type;d.style=t.style;d.pal=[...t.pal];G=d.pal[0];DG=d.pal[2];
+ $('sty').value=t.style;
+ const pa={accent:d.pal[0],top:d.pal[1],bottom:d.pal[2]};
+ $('sbj').value=JSON.stringify({type:d.type,style:d.style,brand:d.brand,tagline:d.tagline,palette:pa,scenes:d.sc.map(s=>{const r={k:s.k,t:s.t};if(s.s)r.s=s.s;if(s.p)r.p=s.p;if(s.items.length)r.items=s.items;return r})},null,1);
+ draw();
+}
+$('tpl').onchange=()=>{if($('tpl').value==='auto'){if(lastSB)setSB(lastSB);return}applyTemplate()};
+
 $('sty').onchange=()=>lastSB&&setSB(lastSB);$('sbj').oninput=e=>{try{setSB(JSON.parse(e.target.value),1);$('st').textContent=''}catch(x){$('st').textContent='Storyboard JSON has an error. Fix it to update the preview.'}};
 const PROMPT=s=>'You are an ad storyboard director. Turn the ad script below into a short animated video plan. Reply with ONLY JSON: {"type":"one of growth|retail|food|fashion|tech|auto|property|beauty|edu|office|gym|farm|health","style":"flat (colorful cartoon) or board (whiteboard sketch) or human (clean explainer with people)","brand":"","tagline":"","palette":{"accent":"#hex","top":"#hex dark","bottom":"#hex dark"},"scenes":[{"k":"hook","t":"headline, max 8 words","s":"one short hook line"},{"k":"story","t":"problem or key message","s":"supporting line"},{"k":"list","t":"short title","items":["max 6 short benefits"]},{"k":"offer","t":"offer text without the price","p":"price such as ₦3,000 or 50% OFF"},{"k":"cta","t":"call to action"}]}. Use 3 to 6 scenes, always start with hook and end with cta, omit list or offer when the script has none. Pick the type and colors that fit the business. Keep the script language. SCRIPT:\n'+s;
 let sm=null;
@@ -210,7 +234,7 @@ $('pl').onclick=()=>{if(recording)return;if(!playing&&tm>=plan().tot-.05)tm=0;se
 $('rc').onclick=rec;$('sk').oninput=e=>{if(recording)return;tm=e.target.value/1000*plan().tot;draw()};
 $('cl').onclick=()=>{$('sc').value='';$('sc').focus()};
 $('bb').onclick=async()=>{const t=$('sc').value.trim();if(!t){$('st').textContent='Paste your script first.';return}$('bb').disabled=true;$('st').textContent='✨ Planning your storyboard…';let sb=null,ai_=1;try{sb=await ai(t)}catch(e){console.error(e)}if(!sb){sb=offline(t);ai_=0}
-setSB(sb);$('out').innerHTML='';tm=0;setPlay(true);$('bb').disabled=false;$('st').textContent=ai_?'Storyboard ready. Check the preview, then record.':'Built with the offline reader (best with ✅ 🔥 📩 style scripts). Add a Gemini key for the AI storyboard.'};
+setSB(sb);if($('tpl').value!=='auto')applyTemplate();$('out').innerHTML='';tm=0;setPlay(true);$('bb').disabled=false;$('st').textContent=ai_?'Storyboard ready. Check the preview, then record.':'Built with the offline reader (best with ✅ 🔥 📩 style scripts). Add a Gemini key for the AI storyboard.'};
 if(window.claude&&claude.use){claude.use('downloads').then(m=>dl=m).catch(()=>{});claude.use('sample').then(m=>sm=m).catch(()=>{})}
 setSB(offline($('sc').value));requestAnimationFrame(n=>{last=n;loop(n)});
 </script></body></html>
