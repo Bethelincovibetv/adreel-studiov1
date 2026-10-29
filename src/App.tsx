@@ -262,10 +262,10 @@ export const App: React.FC = () => {
       }
     }
     const effectiveStyle =
-      graphicTemplate !== 'auto'
-        ? (TEMPLATES[graphicTemplate]?.style || sb.style || 'flat')
-        : style !== 'auto'
+      style !== 'auto'
         ? style
+        : graphicTemplate !== 'auto'
+        ? (TEMPLATES[graphicTemplate]?.style || sb.style || 'flat')
         : (sb.style || 'flat');
     sb = composeStyleStoryboard(sb, effectiveStyle, t);
     updateStoryboardState(sb, false, effectiveStyle);
