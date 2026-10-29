@@ -550,6 +550,12 @@ export const App: React.FC = () => {
             <option value="property">Real Estate</option>
             <option value="whiteboard">Whiteboard Explainer</option>
             <option value="human">Human Presenter Explainer</option>
+            <option value="businessPromo">Business Promotion</option>
+            <option value="productAd">Product Advertisement</option>
+            <option value="eventPromo">Event Promotion</option>
+            <option value="socialReel">Social Media Reel</option>
+            <option value="explainer">Educational Explainer</option>
+            <option value="shortStory">Short Story / Mini-Drama</option>
           </select>
 
           <p className="mut">Choose a visual direction, then build your ad. You can still change the animation style below.</p>
