@@ -15,7 +15,8 @@ import {
   TEMPLATES,
   WHITEBOARD_PALETTES,
   OffscreenBuffers,
-} from './utils/engine';\nimport { composeStyleStoryboard } from './utils/styleStoryboards';
+} from './utils/engine';
+import { composeStyleStoryboard } from './utils/styleStoryboards';
 
 const DEFAULT_SCRIPT = `🚀 GROW YOUR BUSINESS WITH GGD AD NETWORK!
 
