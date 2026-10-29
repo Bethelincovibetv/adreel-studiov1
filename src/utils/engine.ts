@@ -1391,6 +1391,12 @@ export const TEMPLATES: Record<string, { type: AdType; style: string; pal: [stri
   property: { type: 'property', style: 'human', pal: ['#56e0b5', '#082d2d', '#17665a'] },
   whiteboard: { type: 'edu', style: 'board', pal: ['#ffd24d', '#101a3a', '#2a3f9a'] },
   human: { type: 'office', style: 'human', pal: ['#63b8ff', '#091a36', '#17528a'] },
+  businessPromo: { type: 'growth', style: 'human', pal: ['#E67E22', '#1b1720', '#59301d'] },
+  productAd: { type: 'retail', style: 'flat', pal: ['#ffd166', '#171923', '#533d18'] },
+  eventPromo: { type: 'office', style: 'human', pal: ['#ff6b8a', '#211033', '#54245e'] },
+  socialReel: { type: 'growth', style: 'flat', pal: ['#45e0b5', '#10152c', '#373078'] },
+  explainer: { type: 'edu', style: 'board', pal: ['#3c78d8', '#fffdf7', '#eaf2ff'] },
+  shortStory: { type: 'office', style: 'human', pal: ['#e8c56a', '#101521', '#3d3449'] },
 };
 
 export const WHITEBOARD_PALETTES: Record<string, { accent: string; top: string; bottom: string }> = {
