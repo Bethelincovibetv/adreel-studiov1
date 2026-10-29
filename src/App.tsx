@@ -666,9 +666,6 @@ export const App: React.FC = () => {
             <summary>Storyboard (advanced: edit and the preview updates)</summary>
             <textarea id="sbj" rows={12} value={storyboardJson} onChange={handleStoryboardJsonChange} />
           </details>
-        </>
-      )}
-
       </>
     </main>
   );
