@@ -15,7 +15,7 @@ import {
   TEMPLATES,
   WHITEBOARD_PALETTES,
   OffscreenBuffers,
-} from './utils/engine';
+} from './utils/engine';\nimport { composeStyleStoryboard } from './utils/styleStoryboards';
 
 const DEFAULT_SCRIPT = `🚀 GROW YOUR BUSINESS WITH GGD AD NETWORK!
 
@@ -203,7 +203,12 @@ export const App: React.FC = () => {
   // Handle style dropdown
   const handleStyleChange = (val: string) => {
     setStyle(val);
-    updateStoryboardState(storyboard, false, val === 'auto' ? undefined : val);
+    const chosen = val === 'auto' ? (storyboard.style || 'flat') : val;
+    const composed = composeStyleStoryboard(storyboard, chosen, script);
+    updateStoryboardState(composed, false, chosen);
+    setCurrentTime(0);
+    setRecordedVideoUrl(null);
+    setStatusMessage(`Storyboard re-composed for ${chosen.replace(/-/g, ' ')}. Review the scenes, then record your video.`);
   };
 
   // Smart build
@@ -248,24 +253,30 @@ export const App: React.FC = () => {
       aiUsed = false;
     }
 
-    updateStoryboardState(sb);
     if (graphicTemplate !== 'auto') {
       const tmpl = TEMPLATES[graphicTemplate];
       if (tmpl) {
         sb.type = tmpl.type;
         sb.style = tmpl.style;
         sb.palette = { accent: tmpl.pal[0], top: tmpl.pal[1], bottom: tmpl.pal[2] };
-        updateStoryboardState(sb, false, tmpl.style);
       }
     }
+    const effectiveStyle =
+      graphicTemplate !== 'auto'
+        ? (TEMPLATES[graphicTemplate]?.style || sb.style || 'flat')
+        : style !== 'auto'
+        ? style
+        : (sb.style || 'flat');
+    sb = composeStyleStoryboard(sb, effectiveStyle, t);
+    updateStoryboardState(sb, false, effectiveStyle);
 
     setRecordedVideoUrl(null);
     setCurrentTime(0);
     setIsPlaying(true);
     setStatusMessage(
       aiUsed
-        ? 'Storyboard ready with AI. Check the preview, then record.'
-        : 'Built with the offline reader (best with ✅ 🔥 📩 style scripts). Add a Gemini key for the AI storyboard.'
+        ? `AI storyboard composed for ${effectiveStyle.replace(/-/g, ' ')}. Review the style-specific scenes, then record.`
+        : `Style-specific ${effectiveStyle.replace(/-/g, ' ')} storyboard built offline. Add a Gemini key for more tailored AI scene planning.`
     );
   };
 
