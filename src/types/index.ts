@@ -36,7 +36,7 @@ export type AdType =
   | 'farm'
   | 'health';
 
-export type AdStyle = 'auto' | 'flat' | 'board' | 'human';
+export type AdStyle = 'auto' | 'flat' | 'board' | 'human' | 'cinematic' | 'neon' | 'comic' | 'minimal' | 'retro' | 'paper' | 'gradient';
 
 export interface StoryboardData {
   type: AdType;
