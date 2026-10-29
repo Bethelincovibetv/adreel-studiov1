@@ -14,6 +14,7 @@ import {
   createOffscreenBuffers,
   TEMPLATES,
   WHITEBOARD_PALETTES,
+  OffscreenBuffers,
 } from './utils/engine';
 
 const DEFAULT_SCRIPT = `🚀 GROW YOUR BUSINESS WITH GGD AD NETWORK!
