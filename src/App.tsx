@@ -181,7 +181,13 @@ export const App: React.FC = () => {
   const handleTemplateChange = (val: string) => {
     setGraphicTemplate(val);
     if (val === 'auto') {
-      updateStoryboardState(offline(script));
+      const base = offline(script);
+      const chosen = style !== 'auto' ? style : (base.style || 'flat');
+      const composed = composeStyleStoryboard(base, chosen, script);
+      updateStoryboardState(composed, false, chosen);
+      setCurrentTime(0);
+      setRecordedVideoUrl(null);
+      setStatusMessage('Automatic template selected. Storyboard rebuilt from your script.');
       return;
     }
     const t = TEMPLATES[val];
@@ -197,7 +203,11 @@ export const App: React.FC = () => {
           bottom: t.pal[2],
         },
       };
-      updateStoryboardState(updated, false, t.style);
+      const composed = composeStyleStoryboard(updated, t.style, script);
+      updateStoryboardState(composed, false, t.style);
+      setCurrentTime(0);
+      setRecordedVideoUrl(null);
+      setStatusMessage(`Template storyboard composed for ${t.style.replace(/-/g, ' ')}.`);
     }
   };
 
