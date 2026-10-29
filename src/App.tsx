@@ -581,6 +581,29 @@ export const App: React.FC = () => {
             <option value="retro">Style: Retro Vintage</option>
             <option value="paper">Style: Paper Cutout</option>
             <option value="gradient">Style: Animated Gradient</option>
+            <option value="african-business">Style: African Business Promo</option>
+            <option value="kinetic-type">Style: Kinetic Typography</option>
+            <option value="luxury-commercial">Style: Luxury Commercial</option>
+            <option value="glassmorphism">Style: Glassmorphism</option>
+            <option value="doodle-animation">Style: Doodle Animation</option>
+            <option value="modern-2d">Style: Modern 2D Animation</option>
+            <option value="corporate-presentation">Style: Corporate Presentation</option>
+            <option value="chat-story">Style: Chat Story</option>
+            <option value="cartoon-3d">Style: 3D Cartoon</option>
+            <option value="anime-inspired">Style: Anime-Inspired</option>
+            <option value="watercolor-storybook">Style: Watercolor Storybook</option>
+            <option value="claymation">Style: Claymation</option>
+            <option value="tech-launch">Style: Tech Launch</option>
+            <option value="high-energy-commercial">Style: High-Energy Commercial</option>
+            <option value="flat-vector-motion">Style: Flat Vector Motion</option>
+            <option value="music-visualizer">Style: Music Visualizer</option>
+            <option value="documentary">Style: Documentary</option>
+            <option value="motivational">Style: Motivational</option>
+            <option value="before-after">Style: Before-and-After</option>
+            <option value="isometric-world">Style: Isometric World</option>
+            <option value="pixel-art">Style: Pixel Art</option>
+            <option value="blueprint-technical">Style: Blueprint Technical</option>
+            <option value="memphis-pop">Style: Memphis Pop</option>
           </select>
 
           {statusMessage && (
