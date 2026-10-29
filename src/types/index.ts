@@ -36,7 +36,7 @@ export type AdType =
   | 'farm'
   | 'health';
 
-export type AdStyle = 'auto' | 'flat' | 'board' | 'human' | 'cinematic' | 'neon' | 'comic' | 'minimal' | 'retro' | 'paper' | 'gradient';
+export type AdStyle = 'auto' | 'flat' | 'board' | 'human' | 'cinematic' | 'neon' | 'comic' | 'minimal' | 'retro' | 'paper' | 'gradient' | 'african-business' | 'kinetic-type' | 'luxury-commercial' | 'glassmorphism' | 'doodle-animation' | 'modern-2d' | 'corporate-presentation' | 'chat-story' | 'cartoon-3d' | 'anime-inspired' | 'watercolor-storybook' | 'claymation' | 'tech-launch' | 'high-energy-commercial' | 'flat-vector-motion' | 'music-visualizer' | 'documentary' | 'motivational' | 'before-after' | 'isometric-world' | 'pixel-art' | 'blueprint-technical' | 'memphis-pop';
 
 export interface StoryboardData {
   type: AdType;
