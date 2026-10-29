@@ -1181,6 +1181,87 @@ export function renderAdFrame(
     }
   }
 
+  // Additional visual treatments applied after the existing scene renderer.
+  // These are genuine canvas effects, not just selector labels.
+  if (d.style === 'cinematic') {
+    mc.save();
+    mc.fillStyle = 'rgba(0,0,0,0.42)';
+    mc.fillRect(0, 0, 720, 105);
+    mc.fillRect(0, 1175, 720, 105);
+    const shade = mc.createRadialGradient(360, 570, 220, 360, 570, 760);
+    shade.addColorStop(0, 'rgba(0,0,0,0)');
+    shade.addColorStop(1, 'rgba(0,0,0,0.46)');
+    mc.fillStyle = shade;
+    mc.fillRect(0, 0, 720, 1280);
+    mc.restore();
+  } else if (d.style === 'neon') {
+    mc.save();
+    mc.globalAlpha = 0.18;
+    mc.strokeStyle = d.palette.accent || '#42f5f5';
+    mc.lineWidth = 2;
+    for (let x = 24; x < 720; x += 48) { mc.beginPath(); mc.moveTo(x, 0); mc.lineTo(x, 1280); mc.stroke(); }
+    for (let y = 24; y < 1280; y += 48) { mc.beginPath(); mc.moveTo(0, y); mc.lineTo(720, y); mc.stroke(); }
+    mc.globalAlpha = 0.9;
+    mc.shadowColor = d.palette.accent || '#42f5f5';
+    mc.shadowBlur = 22;
+    mc.strokeStyle = d.palette.accent || '#42f5f5';
+    mc.lineWidth = 5;
+    mc.strokeRect(18, 18, 684, 1244);
+    mc.restore();
+  } else if (d.style === 'comic') {
+    mc.save();
+    mc.globalAlpha = 0.17;
+    mc.fillStyle = d.palette.accent || '#ffcf33';
+    for (let y = 24; y < 1280; y += 18) {
+      for (let x = 24 + (Math.floor(y / 18) % 2) * 9; x < 720; x += 18) {
+        mc.beginPath(); mc.arc(x, y, 2.2, 0, Math.PI * 2); mc.fill();
+      }
+    }
+    mc.globalAlpha = 1;
+    mc.strokeStyle = '#151515';
+    mc.lineWidth = 10;
+    mc.strokeRect(10, 10, 700, 1260);
+    mc.restore();
+  } else if (d.style === 'minimal') {
+    mc.save();
+    mc.globalAlpha = 0.85;
+    mc.fillStyle = d.palette.accent || '#4285f4';
+    mc.fillRect(44, 215, 120, 7);
+    mc.fillRect(44, 1050, 70, 7);
+    mc.globalAlpha = 0.12;
+    mc.beginPath(); mc.arc(650, 250, 140, 0, Math.PI * 2); mc.fill();
+    mc.restore();
+  } else if (d.style === 'retro') {
+    mc.save();
+    mc.globalAlpha = 0.18;
+    mc.fillStyle = '#f3c969';
+    for (let y = 0; y < 1280; y += 12) mc.fillRect(0, y, 720, 2);
+    mc.globalAlpha = 0.32;
+    mc.strokeStyle = '#f3c969';
+    mc.lineWidth = 4;
+    mc.beginPath(); mc.arc(360, 330, 185, 0, Math.PI * 2); mc.stroke();
+    mc.restore();
+  } else if (d.style === 'paper') {
+    mc.save();
+    mc.fillStyle = 'rgba(255,250,230,0.16)';
+    mc.fillRect(0, 0, 720, 1280);
+    mc.globalAlpha = 0.2;
+    mc.strokeStyle = '#6d5d46';
+    mc.lineWidth = 2;
+    for (let y = 28; y < 1280; y += 46) { mc.beginPath(); mc.moveTo(0, y); mc.lineTo(720, y); mc.stroke(); }
+    mc.restore();
+  } else if (d.style === 'gradient') {
+    mc.save();
+    const pulse = 0.14 + (Math.sin(t * 1.5) + 1) * 0.07;
+    const glow = mc.createRadialGradient(360 + Math.sin(t) * 170, 470 + Math.cos(t * 0.8) * 180, 20, 360, 560, 600);
+    glow.addColorStop(0, d.palette.accent || '#42aaff');
+    glow.addColorStop(1, 'rgba(0,0,0,0)');
+    mc.globalAlpha = pulse;
+    mc.fillStyle = glow;
+    mc.fillRect(0, 0, 720, 1280);
+    mc.restore();
+  }
+
   const drawCtx: DrawContext = { c: mc, LIGHT, BQ: null, d, G, DG };
   for (let k = 1; k < pl.st.length; k++) {
     const q = t - pl.st[k];
@@ -1367,7 +1448,7 @@ export function norm(sb: any): StoryboardData {
 
   return {
     type: ty,
-    style: ['flat', 'board', 'human'].includes(sb.style) ? sb.style : '',
+    style: ['flat', 'board', 'human', 'cinematic', 'neon', 'comic', 'minimal', 'retro', 'paper', 'gradient'].includes(sb.style) ? sb.style : '',
     brand: String(sb.brand || 'Your Brand'),
     tagline: String(sb.tagline || ''),
     palette: {
