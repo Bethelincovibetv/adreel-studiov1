@@ -574,6 +574,13 @@ export const App: React.FC = () => {
             <option value="flat">Style: Flat cartoon</option>
             <option value="board">Style: Whiteboard sketch</option>
             <option value="human">Style: Human explainer</option>
+            <option value="cinematic">Style: Cinematic Film</option>
+            <option value="neon">Style: Neon Glow</option>
+            <option value="comic">Style: Comic Book</option>
+            <option value="minimal">Style: Minimal Clean</option>
+            <option value="retro">Style: Retro Vintage</option>
+            <option value="paper">Style: Paper Cutout</option>
+            <option value="gradient">Style: Animated Gradient</option>
           </select>
 
           {statusMessage && (
