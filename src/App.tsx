@@ -294,6 +294,55 @@ export const App: React.FC = () => {
     setScript('');
   };
 
+  // Save and restore the current ad project in this browser.
+  const handleSaveProject = () => {
+    try {
+      const project = {
+        version: 1,
+        savedAt: new Date().toISOString(),
+        script,
+        graphicTemplate,
+        style,
+        wbStoryTemplate,
+        storyboard,
+        cinematicParams,
+      };
+      localStorage.setItem('adreel-saved-project-v1', JSON.stringify(project));
+      setStatusMessage('Project saved on this device. It will be available in this browser.');
+    } catch (err) {
+      console.error('Could not save AdReel project:', err);
+      setStatusMessage('Could not save this project. Check available browser storage and try again.');
+    }
+  };
+
+  const handleLoadProject = () => {
+    try {
+      const saved = localStorage.getItem('adreel-saved-project-v1');
+      if (!saved) {
+        setStatusMessage('No saved project found on this device yet. Use Save project first.');
+        return;
+      }
+      const project = JSON.parse(saved);
+      if (project.version !== 1 || !project.storyboard || typeof project.script !== 'string') {
+        setStatusMessage('The saved project is not valid or uses an unsupported version.');
+        return;
+      }
+      setScript(project.script);
+      setGraphicTemplate(project.graphicTemplate || 'auto');
+      setStyle(project.style || 'auto');
+      setWbStoryTemplate(project.wbStoryTemplate || 'problem');
+      if (project.cinematicParams) setCinematicParams(project.cinematicParams);
+      updateStoryboardState(project.storyboard);
+      setCurrentTime(0);
+      setIsPlaying(false);
+      setRecordedVideoUrl(null);
+      setStatusMessage('Saved project restored. Preview it before recording.');
+    } catch (err) {
+      console.error('Could not load AdReel project:', err);
+      setStatusMessage('Could not load the saved project. Its saved data may be damaged.');
+    }
+  };
+
   // Whiteboard story build
   const handleBuildWhiteboardStory = () => {
     const tx = script.trim();
@@ -610,6 +659,12 @@ export const App: React.FC = () => {
             </button>
             <button id="cl" className="sec" onClick={handleClearScript} disabled={isRecording}>
               Clear
+            </button>
+            <button type="button" className="sec" onClick={handleSaveProject} disabled={isRecording}>
+              💾 Save project
+            </button>
+            <button type="button" className="sec" onClick={handleLoadProject} disabled={isRecording}>
+              📂 Load saved project
             </button>
           </div>
 
