@@ -14,9 +14,6 @@ import {
   createOffscreenBuffers,
   TEMPLATES,
   WHITEBOARD_PALETTES,
-  renderCinematicScene,
-  CinematicSceneParams,
-  OffscreenBuffers,
 } from './utils/engine';
 
 const DEFAULT_SCRIPT = `🚀 GROW YOUR BUSINESS WITH GGD AD NETWORK!
@@ -44,8 +41,6 @@ const PROMPT_TEMPLATE = (s: string) =>
   s;
 
 export const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'adreel' | 'cinematic'>('adreel');
-
   // AdReel state
   const [script, setScript] = useState<string>(DEFAULT_SCRIPT);
   const [graphicTemplate, setGraphicTemplate] = useState<string>('auto');
@@ -69,29 +64,13 @@ export const App: React.FC = () => {
   const [recordingStatus, setRecordingStatus] = useState<string>('');
   const [recordedVideoUrl, setRecordedVideoUrl] = useState<string | null>(null);
 
-  // Cinematic state
-  const [cinematicParams, setCinematicParams] = useState<CinematicSceneParams>({
-    scene: 'presenter',
-    people: 'african',
-    location: 'office',
-    effect: 'cinema',
-    headline: 'MAKE YOUR BUSINESS STAND OUT',
-  });
-  const [cinematicPlaying, setCinematicPlaying] = useState<boolean>(false);
-  const [cinematicStatus, setCinematicStatus] = useState<string>(
-    'Each concept changes character placement, pose, props and scene composition—not just colours.'
-  );
-
   // References
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const cinematicCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const buffersRef = useRef<OffscreenBuffers | null>(null);
   const animFrameRef = useRef<number>(0);
   const lastTimeRef = useRef<number>(performance.now());
   const audioContextRef = useRef<AudioContext | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const cinematicStartTimeRef = useRef<number>(performance.now());
-  const cinematicRafRef = useRef<number>(0);
 
   // Initialize offscreen buffers once
   useEffect(() => {
@@ -528,69 +507,12 @@ export const App: React.FC = () => {
     }, 500);
   };
 
-  // Cinematic Human Studio animation
-  const renderCinematicFrame = useCallback(() => {
-    if (!cinematicCanvasRef.current) return;
-    const ctx = cinematicCanvasRef.current.getContext('2d');
-    if (!ctx) return;
-    renderCinematicScene(ctx, cinematicParams, performance.now(), cinematicStartTimeRef.current);
-  }, [cinematicParams]);
-
-  useEffect(() => {
-    if (activeTab === 'cinematic') {
-      renderCinematicFrame();
-    }
-  }, [activeTab, cinematicParams, renderCinematicFrame]);
-
-  useEffect(() => {
-    if (activeTab !== 'cinematic') return;
-
-    if (cinematicPlaying) {
-      const loop = () => {
-        renderCinematicFrame();
-        cinematicRafRef.current = requestAnimationFrame(loop);
-      };
-      cinematicRafRef.current = requestAnimationFrame(loop);
-      return () => cancelAnimationFrame(cinematicRafRef.current);
-    } else {
-      renderCinematicFrame();
-    }
-  }, [activeTab, cinematicPlaying, renderCinematicFrame]);
-
-  const handleSaveCinematicImage = () => {
-    if (!cinematicCanvasRef.current) return;
-    renderCinematicFrame();
-    const a = document.createElement('a');
-    a.download = 'adreel-cinematic-human-scene.png';
-    a.href = cinematicCanvasRef.current.toDataURL('image/png');
-    a.click();
-    setCinematicStatus('Saved a cinematic illustration preview. This is not a photorealistic rendered video.');
-  };
-
   const totalDur = plan(storyboard).tot;
   const progressPercent = Math.min(100, Math.max(0, (currentTime / totalDur) * 100));
 
   return (
     <main>
-      <div className="nav-tabs">
-        <button
-          type="button"
-          className={`nav-tab-btn ${activeTab === 'adreel' ? 'active' : ''}`}
-          onClick={() => setActiveTab('adreel')}
-        >
-          🎬 AdReel Studio
-        </button>
-        <button
-          type="button"
-          className={`nav-tab-btn ${activeTab === 'cinematic' ? 'active' : ''}`}
-          onClick={() => setActiveTab('cinematic')}
-        >
-          🎥 3D Cinematic Human Studio
-        </button>
-      </div>
-
-      {activeTab === 'adreel' && (
-        <>
+      <>
           <h1>🎬 AdReel Studio</h1>
           <p className="mut">
             Paste any ad script. AI plans the scenes, colors and visuals to fit your business, then you record the video.
@@ -747,118 +669,7 @@ export const App: React.FC = () => {
         </>
       )}
 
-      {/* 3D Cinematic Human Studio Tab */}
-      {activeTab === 'cinematic' && (
-        <section>
-          <h1>🎥 3D Cinematic Human Studio</h1>
-          <p className="mut">
-            Build varied human-centred explainer scenes. Choose a different story concept, character combination, location and
-            lighting treatment. This is a cinematic-inspired illustrated preview; photorealistic video and natural lip-sync need a
-            connected video-generation engine.
-          </p>
-
-          <div className="grid-2">
-            <div>
-              <label htmlFor="scene">Scene concept</label>
-              <select
-                id="scene"
-                value={cinematicParams.scene}
-                onChange={(e) => setCinematicParams({ ...cinematicParams, scene: e.target.value })}
-              >
-                <option value="presenter">Cinematic presenter</option>
-                <option value="conversation">Customer and expert conversation</option>
-                <option value="demo">Product demonstration</option>
-                <option value="team">Team collaboration</option>
-                <option value="success">Customer success celebration</option>
-                <option value="street">Real-world storefront</option>
-                <option value="interview">Documentary interview</option>
-                <option value="hero">Dramatic hero introduction</option>
-              </select>
-            </div>
-
-            <div>
-              <label htmlFor="people">Character combination</label>
-              <select
-                id="people"
-                value={cinematicParams.people}
-                onChange={(e) => setCinematicParams({ ...cinematicParams, people: e.target.value })}
-              >
-                <option value="african">African business characters</option>
-                <option value="professional">Professional office team</option>
-                <option value="creative">Creative entrepreneurs</option>
-                <option value="mixed">Mixed-age customer and expert</option>
-                <option value="female">Female presenter and customer</option>
-                <option value="male">Male presenter and customer</option>
-              </select>
-            </div>
-
-            <div>
-              <label htmlFor="location">Environment</label>
-              <select
-                id="location"
-                value={cinematicParams.location}
-                onChange={(e) => setCinematicParams({ ...cinematicParams, location: e.target.value })}
-              >
-                <option value="studio">Premium studio</option>
-                <option value="office">Modern office</option>
-                <option value="shop">Retail shop</option>
-                <option value="home">Warm home</option>
-                <option value="city">Urban street</option>
-                <option value="stage">Presentation stage</option>
-              </select>
-            </div>
-
-            <div>
-              <label htmlFor="effect">Lighting and effects</label>
-              <select
-                id="effect"
-                value={cinematicParams.effect}
-                onChange={(e) => setCinematicParams({ ...cinematicParams, effect: e.target.value })}
-              >
-                <option value="cinema">Cinematic rim light</option>
-                <option value="warm">Warm natural light</option>
-                <option value="neon">Neon tech glow</option>
-                <option value="particles">Floating particles</option>
-                <option value="clean">Clean corporate</option>
-                <option value="dramatic">Dramatic spotlight</option>
-              </select>
-            </div>
-          </div>
-
-          <label htmlFor="headline">Scene headline</label>
-          <input
-            id="headline"
-            type="text"
-            maxLength={70}
-            value={cinematicParams.headline}
-            onChange={(e) => setCinematicParams({ ...cinematicParams, headline: e.target.value })}
-          />
-
-          <canvas id="art" ref={cinematicCanvasRef} width={720} height={1280} />
-
-          <div className="grid-2" style={{ marginTop: '12px' }}>
-            <button
-              id="play"
-              type="button"
-              onClick={() => {
-                setCinematicPlaying(!cinematicPlaying);
-                if (!cinematicPlaying) {
-                  cinematicStartTimeRef.current = performance.now();
-                }
-              }}
-            >
-              {cinematicPlaying ? '⏸ Pause animation' : '▶ Play animation'}
-            </button>
-            <button className="sec" id="save" type="button" onClick={handleSaveCinematicImage}>
-              Save preview image
-            </button>
-          </div>
-
-          <p className="mut" id="status" style={{ marginTop: '14px' }}>
-            {cinematicStatus}
-          </p>
-        </section>
-      )}
+      </>
     </main>
   );
 };
