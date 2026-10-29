@@ -1260,8 +1260,6 @@ export function renderAdFrame(
     mc.fillStyle = glow;
     mc.fillRect(0, 0, 720, 1280);
     mc.restore();
-  }
-
   } else if (d.style === 'african-business') {
     mc.save();
     mc.globalAlpha = 0.92;
